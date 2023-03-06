@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <h1 class="text-pink-700 text-2xl font-bold">Test your solidity code</h1>
+
+    <textarea
+      name="code"
+      id="code"
+      cols="30"
+      rows="10"
+      class="w-[800px] h-[400px] border p-4"
+    ></textarea>
+
+    <button id="btn">点击进行测试</button>
+
+    <div
+      class="w-[800px] border h-[300px] whitespace-pre-wrap"
+      id="result"
+    ></div>
+
+    <script>
+      const codeBox = document.getElementById('code');
+      const testBtn = document.getElementById('btn');
+      const resultBox = document.getElementById('result');
+
+      testBtn.onclick = function () {
+        const code = codeBox.value;
+        const fileName = 'MsgContract';
+
+        fetch('/test', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: fileName,
+            content: code,
+          }),
+        })
+          .then((data) => data.json())
+          .then((result) => {
+            if (result.content) {
+              resultBox.innerHTML = result.content;
+            }
+          });
+      };
+    </script>
+  </body>
+</html>
